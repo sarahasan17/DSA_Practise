@@ -19,3 +19,5 @@ int main()
         s.push(a[i]);
     }
 }
+//5,1,2,3,7,8
+//all the numbers and the next number greater than it except for the greatest number itself
