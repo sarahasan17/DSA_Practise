@@ -4,7 +4,7 @@ using namespace std;
 #include <list>
 #include<queue>
 template<typename T>
-
+//Template acts as a blueprint for creating generic functions or classes
 class graph{
    public:
    map<T,list<T>> l;
