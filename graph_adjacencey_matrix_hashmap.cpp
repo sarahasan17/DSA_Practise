@@ -2,6 +2,8 @@
 #include<list>
 #include <unordered_map>
 using namespace std;
+//Hash maps are a common data structure used to store key-value pairs for efficient retrieval
+
 class graph{
     unordered_map<string,list<pair<string,int>>> l;
     public:
