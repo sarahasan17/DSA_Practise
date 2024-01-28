@@ -2,6 +2,7 @@
 #include <vector>
 using namespace std;
 //memoization:previous value is stored
+//linear time complexity:O(n) (no values are repeating)
 int fibonacci(int a,vector<int> dp){
     if(a<=1){
         return a;
