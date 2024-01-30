@@ -6,7 +6,7 @@ int frog_jump(int n,int a[]){
         return 0;
     }
     int left=frog_jump(n-1,a)+abs(a[n]-a[n-1]);
-    int right=0;
+    int right=10000000;
     if(n>1){
         right=frog_jump(n-2,a)+abs(a[n]-a[n-2]);
     }
