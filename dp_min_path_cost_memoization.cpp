@@ -12,8 +12,8 @@ int minpath(int a[3][3],int i,int j,int dp[3][3]){
         return dp[i][j];
     }
     else{
-        int left=0;
-        int right=0;
+        int left=INT_MAX;
+        int right=INT_MAX;
         if(i>0){
             left=minpath(a,i-1,j,dp)+a[i][j];
         }
@@ -28,4 +28,5 @@ int main()
     int dp[3][3]={{-1,-1,-1},{-1,-1,-1},{-1,-1,-1}};
     int a[3][3]={{0,1,2},{3,4,5},{6,7,8}};
     cout<<minpath(a,2,2,dp);
+    
 }
