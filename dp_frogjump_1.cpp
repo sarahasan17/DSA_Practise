@@ -9,7 +9,7 @@ int frog_jump1(int n,int a[],int dp[]){
         return dp[n];
     }
     int left=frog_jump1(n-1,a,dp)+abs(a[n]-a[n-1]);
-    int right=0;
+    int right=100000;
     if(n>1){
         right=frog_jump1(n-2,a,dp)+abs(a[n]-a[n-2]);
     }
