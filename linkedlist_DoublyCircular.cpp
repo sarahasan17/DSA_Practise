@@ -1,96 +1,98 @@
-#include<iostream>
-#include <conio.h>
+#include <iostream>
 using namespace std;
-
 class node{
     public:
     int data;
-    node *next;
-    node *prev;
-    node(){
-        data=0;
-        next=prev=NULL;
-    }
+    node* next;
+    node* prev;
     node(int a){
         data=a;
-        next=prev=NULL;
+        next=NULL;
+        prev=NULL;
     }
 };
-
-class LinkedList_DC{
+class LinkedList{
     public:
     node *head;
+    LinkedList(){
+        head=NULL;
+    }
     void insert_beg(int a){
         node *temp=new node(a);
         if(head==NULL){
             head=temp;
-            head->next=head->prev=head;
-            return;
+            head->next=head;
+            head->prev=head;
         }
-        node *curr=head;
-        while(curr->next!=head){
-            curr=curr->next;
+        else{
+            node *t=head;
+        while(t->next!=head){
+            t=t->next;
         }
-        curr->next=temp;
-        temp->prev=curr;
+        t->next=temp;
+        temp->prev=t;
         temp->next=head;
         head->prev=temp;
         head=temp;
+        }
+        
     }
     void insert_end(int a){
         node *temp=new node(a);
         if(head==NULL){
             head=temp;
-            head->next=head->prev=head;
-            return;
+            head->next=head;
+            head->prev=head;
         }
-        node *curr=head;
-        while(curr->next!=head){
-            curr=curr->next;
+        else{
+            node *t=head;
+            while(t->next!=head){
+                t=t->next;
+            }
+            t->next=temp;
+            temp->next=head;
+            head->prev=temp;
+            temp->prev=t;
         }
-        curr->next=temp;
-        temp->prev=curr;
-        temp->next=head;
-        head->prev=temp;
-    }
-    void delete_end(){
-        node *curr=head;
-        node *curr2=head->next;
-        while(curr2->next!=head){
-            curr=curr->next;
-            curr2=curr2->next;
-        }
-        curr->next=head;
-        curr2->prev=curr2->next=NULL;
-        head->prev=curr;
-        free(curr2);
     }
     void delete_beg(){
-        node *curr=head;
-        while(curr->next!=head){
-            curr=curr->next;
+        node *t=head;
+        while(t->next!=head){
+            t=t->next;
         }
-        curr->next=head->next;
-        node *temp=head->next;
-        temp->prev=head->prev;
-        head=temp;
+        t->next=head->next;
+        head=head->next;
+        head->prev=t;
+    }
+    void delete_end(){
+        node *t=head;
+        if(t->next==head){
+            head=NULL;
+        }
+        else{
+            while(t->next->next!=head){
+                t=t->next;
+            }
+            t->next=head;
+            head->prev=t;
+        }
     }
     void display(){
-        node *curr=head;
-        while(curr->next!=head){
-            cout<<curr->data<<"("<<curr->prev<<" "<<curr->next<<")-->"<<endl;
-            curr=curr->next;
+        node *t=head;
+        while(t->next!=head){
+            cout<<t->prev<<" "<<t<<" "<<t->next<<endl;
+            t=t->next;
         }
-        cout<<curr->data<<"("<<curr->prev<<" "<<curr->next<<")"<<endl;
+        cout<<t->prev<<" "<<t<<" "<<t->next<<endl;  
     }
 };
 int main(){
-    LinkedList_DC list;
-    list.insert_end(1);
-    list.insert_end(2);
-    list.insert_end(3);
-    list.insert_beg(4);
-    list.delete_beg();
-    list.delete_end();
-    list.display();
+    LinkedList l=LinkedList();
+    l.insert_beg(1);
+    l.insert_beg(2);
+    l.insert_end(3);
+    l.insert_end(4);
+    l.delete_end();
+    l.delete_beg();
+    l.display();
 }
