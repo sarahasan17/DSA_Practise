@@ -1,71 +1,73 @@
 #include <iostream>
 using namespace std;
-#include <conio.h>
-#include <malloc.h>
+
 class node{
     public:
     int data;
-    node* next;
-    node(){
-        data=0;
-        next=NULL;
-    }
-    node(int b){
-        data=b;
+    node*next;
+    node(int a){
+        data=a;
         next=NULL;
     }
 };
+
 class LinkedList{
     public:
-    node* head;
+    node *head;
+    LinkedList(){
+        head=NULL;
+    }
     void insert_beg(int a){
-        node* temp=new node(a);
+        node *temp=new node(a);
         temp->next=head;
         head=temp;
     }
     void insert_end(int a){
+        node *temp=new node(a);
         if(head==NULL){
-            node* temp=new node(a);
             head=temp;
         }
         else{
-            node* temp=new node(a);
-            node* curr=head;
-            while(curr->next!=NULL){
-                curr=curr->next;
+            node *t=head;
+            while(t->next!=NULL){
+                t=t->next;
             }
-            curr->next=temp;
+            t->next=temp;
         }
     }
     void delete_beg(){
-        node* temp=head;
+        node *t=head;
         head=head->next;
-        free(temp);
+        free(t);
     }
     void delete_end(){
-        node* curr=head;
-        while(curr->next->next!=NULL){
-            curr=curr->next;
+        node *t=head;
+        if(t->next==NULL){
+            head=NULL;
         }
-        curr->next=NULL;
-        
+        else{
+            while(t->next->next!=NULL){
+                t=t->next;
+            }
+            t->next=NULL;
+        }
     }
     void display(){
-        node *curr=head;
-        while(curr!=NULL){
-            cout<<curr->data<<"-->";
-            curr=curr->next;
-        }    
-        cout<<endl;
+        node *t=head;
+        while(t!=NULL){
+            cout<<t->data<<" ";
+            t=t->next;
+        }
+        cout<<" "<<endl;
     }
 };
 int main(){
-    LinkedList list;
-    list.insert_end(1);
-    list.insert_end(2);
-    list.insert_end(3);
-    list.insert_beg(5);
-    list.delete_beg();
-    list.delete_end();
-    list.display();
+    LinkedList l=LinkedList();
+    l.insert_beg(1);
+    l.insert_beg(2);
+    l.insert_end(3);
+    l.insert_end(4);
+    l.delete_end();
+    l.delete_beg();
+    l.display();
 }
