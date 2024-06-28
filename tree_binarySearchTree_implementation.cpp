@@ -1,97 +1,96 @@
-//Binary tree:Has at max 2 children node
-//Binary search tree:First root, if the value is smaller add it to the left subtree and if the value is more add it to the right sub tree
-
 #include <iostream>
 using namespace std;
-struct node{
+
+class node{
+    public:
     int data;
-    node *left;
-    node *right;
+    node* left;
+    node* right;
+    node(int d){
+        data=d;
+        left=NULL;
+        right=NULL;
+    }
 };
-node* getnewnode(int a){
-    node* newnode=new node();
-    newnode->data=a;
-    newnode->left=NULL;
-    newnode->right=NULL;
-    return newnode;
+node* insert(node* root,int val){
+    if(root==NULL){
+        root=new node(val);
+    }
+    else if(root->data<val){
+        root->right=insert(root->right,val);
+    }
+    else{
+        root->left=insert(root->left,val);
+    }
+    return root;
 }
-node* insert(node* root,int a){
-        if(root==NULL){
-            root=getnewnode(a);
-        }
-        else if(a<=root->data){
-            root->left=insert(root->left,a);
-        }
-        else{
-            root->right=insert(root->right,a);
-        }
-        return root;
+bool search(node* root,int val){
+    if(root==NULL){
+        return false;
     }
-    
-    bool search(node *root,int a){
-        if(root==NULL){
-            cout<<"not "<<endl;
-            return false;
-        }
-        else if(root->data==a){
-            cout<<"found"<<endl;
-            return true;
-        }
-        else if(a<=root->data){
-            return search(root->left,a);
-        }
-        else{
-            return search(root->right,a);
-        }
+    else if(root->data==val){
+        return true;
     }
-node* findmin(struct node* root){
+    else if(root->data<val){
+        return search(root->right,val);
+    }
+    return search(root->left,val);
+}
+int findmin(node* root){
     while(root->left!=NULL){
         root=root->left;
     }
-    cout<<root->data<<endl;
-    return root;
+    return root->data;
 }
-struct node *deletenode(struct node* root,int data){
+node* deletenode(node* root,int val){
     if(root==NULL){
         return root;
     }
-    else if(data<root->data){
-        root->left=deletenode(root->left,data);
+    else if(root->data<val){
+        root->right=deletenode(root->right,val);
     }
-    else if(data>root->data){
-        root->right=deletenode(root->right,data);
+    else if(root->data>val){
+        root->left=deletenode(root->left,val);
     }
     else{
         if(root->left==NULL && root->right==NULL){
             delete root;
             root=NULL;
         }
-        else if(root->right==NULL){
-            struct node* temp=root;
-            root=root->left;
-            delete temp;
-        }
         else if(root->left==NULL){
-            struct node* temp=root;
+            node* temp=root;
             root=root->right;
             delete temp;
         }
-        else{
-            struct node* temp=findmin(root->right);
-            root->data=temp->data;
-            root->right=deletenode(root->right,temp->data);
+        else if(root->right==NULL){
+            node* temp=root;
+            root=root->left;
+            delete temp;
         }
-        
+        else{
+            int t=findmin(root->right);
+            root->data=t;
+            root->right=deletenode(root->right,t);
+        }
     }
     return root;
-    
+}
+void inorder(node* root){
+    if(root!=NULL){
+        inorder(root->left);
+        cout<<root->data<<" ";    
+        inorder(root->right);
+    }
 }
 int main(){
     node* root=NULL;
-    root=insert(root,2);
-    root=insert(root,1);
     root=insert(root,4);
-    root=insert(root,5);
-    root=deletenode(root,2);
-    cout<<search(root,4)<<endl;
+    root=insert(root,3);
+    root=insert(root,2);
+    root=insert(root,6);
+    inorder(root);
+    cout<<endl;
+    root=deletenode(root,3);
+    inorder(root);
+    
 }
