@@ -1,42 +1,43 @@
 #include <iostream>
-using namespace std;
-#include<map>
+#include <map>
 #include <list>
-#include<queue>
-template<typename T>
-//Template acts as a blueprint for creating generic functions or classes
-class graph{
-   public:
-   map<T,list<T>> l;
-   void addedge(int x,int y){
-       l[x].push_back(y);
-       l[y].push_back(x);
-   }
-   void bfs(T src){
-       map<T,int> visited;
-       queue<T> q;
-       q.push(src);
-       visited[src]=true;
-       cout<<src<<' ';
-       while(!q.empty()){
-           T node=q.front();
-           q.pop();
-           for(int d:l[node]){
-               if(!visited[d]){
-                   cout<<d<<' ';
-                   q.push(d);
-                   visited[d]=true;
-               }
-           }
-       }
-   }
-    
+#include <queue>
+using namespace std;
+
+class Graph{
+    public:
+    map <int,list<int>> adj;
+    map<int,bool> visited;
+    void addEdge(int v,int w){
+        adj[v].push_back(w);
+    }
+    void BFS(int i){
+        queue <int>q;
+        q.push(i);
+        while(!q.empty()){
+            int t=q.front();
+            q.pop();
+            if(!visited[t]){
+                cout<<t<<" ";
+                visited[t]=true;
+            }
+            for(auto i=adj[t].begin();i!=adj[t].end();i++){
+                if(!visited[*i]){
+                    q.push(*i);
+                }
+            }
+        }
+    }
 };
 int main(){
-    graph<int> g;
-    g.addedge(1,2);
-    g.addedge(2,3);
-    g.addedge(1,3);
-    g.addedge(4,1);
-    g.bfs(1);
+    Graph g;
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(2, 3);
+    g.addEdge(3, 3);
+
+    cout << "Depth First Traversal (starting from vertex 2):" << endl;
+    g.BFS(2);
 }
