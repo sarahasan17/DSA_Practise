@@ -1,9 +1,9 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 class TrieNode{
     public:
-    TrieNode *child[26];
+    TrieNode* child[26];
     bool isEnd;
     TrieNode(){
         isEnd=false;
@@ -12,27 +12,29 @@ class TrieNode{
         }
     }
 };
-void insert(TrieNode* root,string &k){
+void insert(TrieNode *root,string &k){
+    TrieNode*  r=root;
     for(int i=0;i<k.length();i++){
         int b=k[i]-'a';
-        if(root->child[b]==NULL){
-            root->child[b]=new TrieNode();
+        if(r->child[b]==NULL){
+            r->child[b]=new TrieNode();
         }
-        root=root->child[b];
+        r=r->child[b];
     }
-    root->isEnd=true;
+    r->isEnd=true;
 }
-bool search(TrieNode* root,string &k){
+bool search(TrieNode *root,string &k){
+    TrieNode*  r=root;
     for(int i=0;i<k.length();i++){
         int b=k[i]-'a';
-        if(root->child[b]==NULL){
+        if(r->child[b]==NULL){
             return false;
         }
-        root=root->child[b];
+        r=r->child[b];
     }
-    return root->isEnd;
+    return r->isEnd;
 }
-bool isEmpty(TrieNode* root){
+bool isEmpty(TrieNode *root){
     for(int i=0;i<26;i++){
         if(root->child[i]!=NULL){
             return false;
@@ -40,7 +42,7 @@ bool isEmpty(TrieNode* root){
     }
     return true;
 }
-TrieNode* Delete(TrieNode* root,string &k,int i){
+TrieNode* Delete(TrieNode *root,string &k,int i){
     if(root==NULL) return NULL;
     if(i==k.length()){
         root->isEnd=false;
@@ -60,38 +62,20 @@ TrieNode* Delete(TrieNode* root,string &k,int i){
 }
 int main(){
     TrieNode* root=new TrieNode();
-    vector<string> inputStrings
-        = { "and", "ant", "do", "geek", "dad", "ball" ,"geeks"};
-
-    // number of insert operations in the Trie
-    int n = inputStrings.size();
-
-    for (int i = 0; i < n; i++) {
-        insert(root, inputStrings[i]);
+    vector<string> data={"amma","abbu","sara","bhaiya"};
+    for(int i=0;i<data.size();i++){
+        insert(root,data[i]);
     }
-    //delete
-    string word="geek";
-    root=Delete(root,word,0);
-    // Stores the strings that we want to search in the Trie
-    vector<string> searchQueryStrings
-        = { "do", "geeks", "bat" };
-    // number of search operations in the Trie
-    int searchQueries = searchQueryStrings.size();
-
-    for (int i = 0; i < searchQueries; i++) {
-        cout << "Query String: " << searchQueryStrings[i]
-             << "\n";
-        if (search(root, searchQueryStrings[i])) {
-            // the queryString is present in the Trie
-            cout << "The query string is present in the "
-                    "Trie\n";
-        }
-        else {
-            // the queryString is not present in the Trie
-            cout << "The query string is not present in "
-                    "the Trie\n";
-        }
+    vector<string> searching={"sara","anas","abbu"};
+    for(int i=0;i<searching.size();i++){
+        bool val=search(root,searching[i]);
+        cout<<searching[i]<<" found:"<<val<<endl;
     }
-
-    return 0;
+    string l="sara";
+    root=Delete(root,l,0);
+    bool val=search(root,l);
+    cout<<"after deleting "<<l<<" found:"<<val<<endl;
+    
+    
 }
+
