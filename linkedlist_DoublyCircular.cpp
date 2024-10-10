@@ -1,98 +1,108 @@
-#include <iostream>
-using namespace std;
+#include <bits/stdc++.h>
+using namespace std; 
+
 class node{
     public:
-    int data;
+    int val;
     node* next;
     node* prev;
-    node(int a){
-        data=a;
-        next=NULL;
-        prev=NULL;
+    node(int data){
+        val=data;
+        next=prev=NULL;
     }
 };
 class LinkedList{
     public:
-    node *head;
+    node* head;
     LinkedList(){
         head=NULL;
     }
-    void insert_beg(int a){
-        node *temp=new node(a);
+    void insert_beg(int data){
+        node* temp=new node(data);
         if(head==NULL){
             head=temp;
             head->next=head;
             head->prev=head;
+            return;
         }
-        else{
-            node *t=head;
+        node* t=head;
         while(t->next!=head){
             t=t->next;
         }
         t->next=temp;
-        temp->prev=t;
         temp->next=head;
         head->prev=temp;
+        temp->prev=t;
         head=temp;
-        }
-        
     }
-    void insert_end(int a){
-        node *temp=new node(a);
+    void insert_end(int data){
+        node* temp=new node(data);
         if(head==NULL){
             head=temp;
             head->next=head;
             head->prev=head;
+            return;
         }
-        else{
-            node *t=head;
-            while(t->next!=head){
-                t=t->next;
-            }
-            t->next=temp;
-            temp->next=head;
-            head->prev=temp;
-            temp->prev=t;
+        node* t=head;
+        while(t->next!=head){
+            t=t->next;
         }
+        t->next=temp;
+        temp->next=head;
+        head->prev=temp;
+        temp->prev=t;
     }
     void delete_beg(){
-        node *t=head;
+        node* t=head;
+        if(head==NULL) return;
+        if(t->next==head){
+            head=NULL;
+            return;
+        }
+        node* n=head->next;
         while(t->next!=head){
             t=t->next;
         }
         t->next=head->next;
+        head->next->prev=t;
         head=head->next;
-        head->prev=t;
+        
     }
     void delete_end(){
-        node *t=head;
+        node* t=head;
+        if(head==NULL) return;
         if(t->next==head){
             head=NULL;
+            return;
         }
-        else{
-            while(t->next->next!=head){
-                t=t->next;
-            }
-            t->next=head;
-            head->prev=t;
+        node* n=head->next;
+        while(n->next!=head){
+            t=t->next;
+            n=n->next;
         }
+        t->next=head;
+        head->prev=t;
+        n->prev=NULL;
+        n->next=NULL;
     }
     void display(){
-        node *t=head;
+        node* t=head;
         while(t->next!=head){
-            cout<<t->prev<<" "<<t<<" "<<t->next<<endl;
+            cout<<t->val<<" ";
             t=t->next;
         }
-        cout<<t->prev<<" "<<t<<" "<<t->next<<endl;  
+        cout<<t->val;
+        cout<<endl;
     }
 };
 int main(){
-    LinkedList l=LinkedList();
-    l.insert_beg(1);
-    l.insert_beg(2);
+    LinkedList l;
+    l.insert_end(1);
+    l.insert_end(2);
     l.insert_end(3);
-    l.insert_end(4);
+    l.insert_beg(4);
     l.delete_end();
     l.delete_beg();
     l.display();
+    
 }
